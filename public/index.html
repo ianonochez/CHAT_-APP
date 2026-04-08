@@ -1,21 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Chat App</title>
+    <title>Premium Chat</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>💬 Chat App</h2>
+<h2>💬 Premium Chat</h2>
 
-<div id="chat"></div>
-
-<div class="input-area">
-    <input id="name" placeholder="Your name">
-    <input id="message" placeholder="Type message">
-    <button onclick="sendMessage()">Send</button>
+<div id="auth">
+    <input id="username" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+    <input type="file" id="profilePic">
+    <button onclick="register()">Register</button>
+    <button onclick="login()">Login</button>
 </div>
+
+<div id="chatUI" style="display:none;">
+    <h3 id="welcome"></h3>
+
+    <div id="chat"></div>
+
+    <div class="input-area">
+        <input id="message" placeholder="Type message">
+        <input type="file" id="imageInput">
+        <button onclick="sendMessage()">Send</button>
+        <button onclick="recordVoice()">🎤</button>
+    </div>
+</div>
+
 <script src="/socket.io/socket.io.js"></script>
 <script src="script.js"></script>
+
 </body>
 </html>
