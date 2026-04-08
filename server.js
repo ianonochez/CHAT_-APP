@@ -1,6 +1,7 @@
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
+const fs = require("fs");
 
 const app = express();
 const server = http.createServer(app);
@@ -10,20 +11,26 @@ app.use(express.static("public"));
 
 let messages = [];
 
-// when user connects
-io.on("connection", (socket) => {
-    console.log("User connected");
+// load saved messages
+if (fs.existsSync("messages.json")) {
+    messages = JSON.parse(fs.readFileSync("messages.json"));
+}
 
-    // send old messages
+io.on("connection", (socket) => {
     socket.emit("loadMessages", messages);
 
-    // receive message
     socket.on("sendMessage", (msg) => {
         messages.push(msg);
 
-        // send to everyone instantly
+        // save to file
+        fs.writeFileSync("messages.json", JSON.stringify(messages));
+
         io.emit("newMessage", msg);
     });
 });
 
-server.listen(3000, () => console.log("Running on http://localhost:3000"));
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, () => {
+    console.log("Server running on port " + PORT);
+});
