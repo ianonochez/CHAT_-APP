@@ -1,4 +1,4 @@
-cat <<'EOF' > public/script.js
+
 async function loadMessages() {
     try {
         const res = await fetch("/messages");
@@ -45,5 +45,5 @@ async function sendMessage() {
 }
 
 setInterval(loadMessages, 2000);
-EOF
+
 
