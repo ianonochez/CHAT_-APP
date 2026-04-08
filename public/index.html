@@ -1,21 +1,21 @@
+cat <<'EOF' > public/index.html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat App</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<h2>💬 Chat App</h2>
-
-<div id="chat"></div>
-
-<div class="input-area">
-    <input id="name" placeholder="Your name">
-    <input id="message" placeholder="Type message">
-    <button onclick="sendMessage()">Send</button>
-</div>>
-<script src="/socket.io/socket.io.js"></script>
-<script src="script.js"></script>
+    <header>Chat App</header>
+    <div id="chat"></div>
+    <div class="input-area">
+        <input type="text" id="message" placeholder="Type a message..." onkeypress="if(event.key==='Enter') sendMessage()">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
+EOF
+
