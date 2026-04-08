@@ -1,17 +1,57 @@
-cat <<'EOF' > public/style.css
-body { margin: 0; background: #0b141a; font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; color: white; }
-header { background: #202c33; padding: 15px; text-align: center; font-weight: bold; border-bottom: 1px solid #374045; }
-#chat { flex: 1; overflow-y: auto; display: flex; flex-direction: column; padding: 15px; gap: 10px; }
-.message-wrapper { display: flex; width: 100%; }
-.you-wrapper { justify-content: flex-end; }
-.other-wrapper { justify-content: flex-start; }
-.message { max-width: 75%; padding: 8px 12px; border-radius: 10px; }
-.you { background: #005c4b; border-bottom-right-radius: 0; }
-.other { background: #202c33; border-bottom-left-radius: 0; }
-small { display: block; font-size: 0.7rem; opacity: 0.6; margin-bottom: 4px; }
-p { margin: 0; }
-.input-area { background: #202c33; padding: 10px; display: flex; gap: 5px; }
-input { background: #2a3942; border: none; color: white; padding: 10px; border-radius: 5px; outline: none; flex: 1; }
-button { background: #00a884; color: white; border: none; padding: 10px 15px; border-radius: 5px; font-weight: bold; }
-EOF
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+}
 
+h2 {
+    text-align: center;
+    padding: 10px;
+}
+
+#chat {
+    height: 70vh;
+    overflow-y: scroll;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    max-width: 70%;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+}
+
+.you {
+    background: #22c55e;
+    align-self: flex-end;
+}
+
+.other {
+    background: #1e293b;
+    align-self: flex-start;
+}
+
+.input-area {
+    display: flex;
+    padding: 10px;
+    background: #020617;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+}
+
+button {
+    padding: 10px;
+    background: #22c55e;
+    border: none;
+    color: white;
+}

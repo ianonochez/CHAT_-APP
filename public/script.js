@@ -1,49 +1,51 @@
+let myName = "";
+
+// ask name once
+window.onload = () => {
+    myName = prompt("Enter your name:");
+    loadMessages();
+};
 
 async function loadMessages() {
-    try {
-        const res = await fetch("/messages");
-        const data = await res.json();
-        const chat = document.getElementById("chat");
-        const myName = document.getElementById("name").value || "Guest";
-        
-        chat.innerHTML = "";
+    const res = await fetch("/messages");
+    const data = await res.json();
 
-        data.forEach(msg => {
-            const wrapper = document.createElement("div");
-            wrapper.className = "message-wrapper " + (msg.name === myName ? "you-wrapper" : "other-wrapper");
-            
-            const div = document.createElement("div");
-            div.className = "message " + (msg.name === myName ? "you" : "other");
+    const chat = document.getElementById("chat");
+    chat.innerHTML = "";
 
-            div.innerHTML = "<small>" + msg.name + "</small><p>" + msg.message + "</p>";
-            wrapper.appendChild(div);
-            chat.appendChild(wrapper);
-        });
+    data.forEach(msg => {
+        const div = document.createElement("div");
+        div.classList.add("message");
 
-        chat.scrollTop = chat.scrollHeight;
-    } catch (err) {
-        console.log("Fetch error:", err);
-    }
+        if (msg.name === myName) {
+            div.classList.add("you");
+        } else {
+            div.classList.add("other");
+        }
+
+        div.innerHTML = `<b>${msg.name}:</b> ${msg.message}`;
+        chat.appendChild(div);
+    });
+
+    // auto scroll down
+    chat.scrollTop = chat.scrollHeight;
 }
 
+// send message
 async function sendMessage() {
-    const nameInput = document.getElementById("name");
-    const messageInput = document.getElementById("message");
-    const name = nameInput.value || "Guest";
-    const message = messageInput.value.trim();
-
-    if (!message) return;
+    const message = document.getElementById("message").value;
 
     await fetch("/send", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name, message: message })
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name: myName, message })
     });
 
-    messageInput.value = "";
+    document.getElementById("message").value = "";
     loadMessages();
 }
 
+// refresh every 2 sec
 setInterval(loadMessages, 2000);
-
-
