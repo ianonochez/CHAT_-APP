@@ -1,6 +1,6 @@
-cat <<'EOF' > public/index.html
+xmcat <<'EOF' > public/index.html
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,8 @@ cat <<'EOF' > public/index.html
     <header>Chat App</header>
     <div id="chat"></div>
     <div class="input-area">
-        <input type="text" id="message" placeholder="Type a message..." onkeypress="if(event.key==='Enter') sendMessage()">
+        <input type="text" id="name" placeholder="Your Name" style="width: 80px; flex: none;">
+        <input type="text" id="message" placeholder="Type a message...">
         <button onclick="sendMessage()">Send</button>
     </div>
     <script src="script.js"></script>

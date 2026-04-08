@@ -1,97 +1,17 @@
 cat <<'EOF' > public/style.css
-body {
-    margin: 0;
-    background-color: #0b141a;
-    font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-}
-
-header {
-    background: #202c33;
-    color: #e9edef;
-    padding: 15px;
-    text-align: center;
-    font-size: 1.2rem;
-    font-weight: bold;
-    border-bottom: 1px solid #374045;
-}
-
-#chat {
-    flex: 1;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    padding: 15px;
-    gap: 8px;
-}
-
-.message-wrapper {
-    display: flex;
-    width: 100%;
-}
-
+body { margin: 0; background: #0b141a; font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; color: white; }
+header { background: #202c33; padding: 15px; text-align: center; font-weight: bold; border-bottom: 1px solid #374045; }
+#chat { flex: 1; overflow-y: auto; display: flex; flex-direction: column; padding: 15px; gap: 10px; }
+.message-wrapper { display: flex; width: 100%; }
 .you-wrapper { justify-content: flex-end; }
 .other-wrapper { justify-content: flex-start; }
-
-.message {
-    max-width: 75%;
-    padding: 8px 12px;
-    border-radius: 10px;
-    color: #e9edef;
-    position: relative;
-    box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
-}
-
-.you {
-    background-color: #005c4b;
-    border-top-right-radius: 0;
-}
-
-.other {
-    background-color: #202c33;
-    border-top-left-radius: 0;
-}
-
-small {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: bold;
-    margin-bottom: 4px;
-    color: #8696a0;
-}
-
-p { margin: 0; line-height: 1.4; }
-
-.input-area {
-    background: #202c33;
-    padding: 10px 15px;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-input {
-    flex: 1;
-    background: #2a3942;
-    border: none;
-    color: white;
-    padding: 12px 15px;
-    border-radius: 20px;
-    outline: none;
-}
-
-button {
-    background: #00a884;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-button:active { background: #06cf9c; }
+.message { max-width: 75%; padding: 8px 12px; border-radius: 10px; }
+.you { background: #005c4b; border-bottom-right-radius: 0; }
+.other { background: #202c33; border-bottom-left-radius: 0; }
+small { display: block; font-size: 0.7rem; opacity: 0.6; margin-bottom: 4px; }
+p { margin: 0; }
+.input-area { background: #202c33; padding: 10px; display: flex; gap: 5px; }
+input { background: #2a3942; border: none; color: white; padding: 10px; border-radius: 5px; outline: none; flex: 1; }
+button { background: #00a884; color: white; border: none; padding: 10px 15px; border-radius: 5px; font-weight: bold; }
 EOF
 
