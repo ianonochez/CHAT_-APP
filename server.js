@@ -6,30 +6,24 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// serve frontend
 app.use(express.static("public"));
 
 let messages = [];
 
-// socket connection
+// when user connects
 io.on("connection", (socket) => {
     console.log("User connected");
 
     // send old messages
     socket.emit("loadMessages", messages);
 
-    // receive new message
+    // receive message
     socket.on("sendMessage", (msg) => {
         messages.push(msg);
 
-        // send to everyone
+        // send to everyone instantly
         io.emit("newMessage", msg);
     });
 });
 
-// IMPORTANT FOR RENDER 🔥
-const PORT = process.env.PORT || 3000;
-
-server.listen(PORT, () => {
-    console.log("Server running on port " + PORT);
-});
+server.listen(3000, () => console.log("Running on http://localhost:3000"));

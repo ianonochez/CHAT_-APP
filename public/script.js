@@ -1,51 +1,51 @@
+const socket = io();
 let myName = "";
 
-// ask name once
+// ask name
 window.onload = () => {
     myName = prompt("Enter your name:");
-    loadMessages();
 };
 
-async function loadMessages() {
-    const res = await fetch("/messages");
-    const data = await res.json();
-
+// load old messages
+socket.on("loadMessages", (msgs) => {
     const chat = document.getElementById("chat");
     chat.innerHTML = "";
 
-    data.forEach(msg => {
-        const div = document.createElement("div");
-        div.classList.add("message");
+    msgs.forEach(addMessage);
+});
 
-        if (msg.name === myName) {
-            div.classList.add("you");
-        } else {
-            div.classList.add("other");
-        }
-
-        div.innerHTML = `<b>${msg.name}:</b> ${msg.message}`;
-        chat.appendChild(div);
-    });
-
-    // auto scroll down
-    chat.scrollTop = chat.scrollHeight;
-}
+// receive new message instantly
+socket.on("newMessage", (msg) => {
+    addMessage(msg);
+});
 
 // send message
-async function sendMessage() {
+function sendMessage() {
     const message = document.getElementById("message").value;
 
-    await fetch("/send", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ name: myName, message })
+    socket.emit("sendMessage", {
+        name: myName,
+        message
     });
 
     document.getElementById("message").value = "";
-    loadMessages();
 }
 
-// refresh every 2 sec
-setInterval(loadMessages, 2000);
+// add message to UI
+function addMessage(msg) {
+    const chat = document.getElementById("chat");
+
+    const div = document.createElement("div");
+    div.classList.add("message");
+
+    if (msg.name === myName) {
+        div.classList.add("you");
+    } else {
+        div.classList.add("other");
+    }
+
+    div.innerHTML = `<b>${msg.name}:</b> ${msg.message}`;
+    chat.appendChild(div);
+
+    chat.scrollTop = chat.scrollHeight;
+}
