@@ -53,3 +53,8 @@ function addMessage(msg) {
 
     chat.scrollTop = chat.scrollHeight;
 }
+document.getElementById("message").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        sendMessage();
+    }
+});
