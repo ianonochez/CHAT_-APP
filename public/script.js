@@ -1,37 +1,41 @@
 const socket = io();
-let myName = "";
 
-// ask name
-window.onload = () => {
+// get or save username
+let myName = localStorage.getItem("name");
+
+if (!myName) {
     myName = prompt("Enter your name:");
-};
+    localStorage.setItem("name", myName);
+}
 
 // load old messages
 socket.on("loadMessages", (msgs) => {
     const chat = document.getElementById("chat");
     chat.innerHTML = "";
-
     msgs.forEach(addMessage);
 });
 
-// receive new message instantly
+// receive new message
 socket.on("newMessage", (msg) => {
     addMessage(msg);
 });
 
 // send message
 function sendMessage() {
-    const message = document.getElementById("message").value;
+    const input = document.getElementById("message");
+    const message = input.value;
+
+    if (message.trim() === "") return;
 
     socket.emit("sendMessage", {
         name: myName,
         message
     });
 
-    document.getElementById("message").value = "";
+    input.value = "";
 }
 
-// add message to UI
+// display message
 function addMessage(msg) {
     const chat = document.getElementById("chat");
 
