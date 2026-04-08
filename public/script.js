@@ -1,51 +1,59 @@
-const socket = io();
 let myName = "";
 
-// ask name
+// ask name once
 window.onload = () => {
-    myName = prompt("Enter your name:");
+    myName = prompt("Enter your name:") || "Anonymous"; // Fallback if they hit cancel
+    loadMessages();
 };
 
-// load old messages
-socket.on("loadMessages", (msgs) => {
+async function loadMessages() {
+    const res = await fetch("/messages");
+    const data = await res.json();
+
     const chat = document.getElementById("chat");
     chat.innerHTML = "";
 
-    msgs.forEach(addMessage);
-});
+    data.forEach(msg => {
+        // 1. Create a wrapper to handle the "push" to the left or right
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("message-wrapper");
 
-// receive new message instantly
-socket.on("newMessage", (msg) => {
-    addMessage(msg);
-});
+        // 2. Create the actual bubble
+        const div = document.createElement("div");
+        div.classList.add("message");
 
-// send message
-function sendMessage() {
-    const message = document.getElementById("message").value;
+        if (msg.name === myName) {
+            wrapper.classList.add("you-wrapper"); // Pushes to right
+            div.classList.add("you");            // Colors it green
+        } else {
+            wrapper.classList.add("other-wrapper"); // Pushes to left
+            div.classList.add("other");             // Colors it grey
+        }
 
-    socket.emit("sendMessage", {
-        name: myName,
-        message
+        div.innerHTML = `<small>${msg.name}</small><p>${msg.message}</p>`;
+        
+        wrapper.appendChild(div);
+        chat.appendChild(wrapper);
     });
 
-    document.getElementById("message").value = "";
+    chat.scrollTop = chat.scrollHeight;
 }
 
-// add message to UI
-function addMessage(msg) {
-    const chat = document.getElementById("chat");
+async function sendMessage() {
+    const messageInput = document.getElementById("message");
+    const message = messageInput.value.trim();
 
-    const div = document.createElement("div");
-    div.classList.add("message");
+    if (!message) return; // Don't send empty messages
 
-    if (msg.name === myName) {
-        div.classList.add("you");
-    } else {
-        div.classList.add("other");
-    }
+    await fetch("/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: myName, message })
+    });
 
-    div.innerHTML = `<b>${msg.name}:</b> ${msg.message}`;
-    chat.appendChild(div);
+    messageInput.value = "";
+    loadMessages();
+}
 
-    chat.scrollTop = chat.scrollHeight;
+setInterval(loadMessages, 2000);
 }
